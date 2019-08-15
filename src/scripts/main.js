@@ -1,5 +1,11 @@
-const message = "Time to build an application that gives you all the information you need in a Nutshell"
+import API from "./data.js"
+import factoryFuncs from "./factory.js"
+import render from "./dom.js"
 
-document.querySelector("#container").innerHTML = `<h1>${message}</h1>`
-
-console.log(message)
+API.fetchEvents().then(events => {
+    events.forEach(event => {
+        const htmlRep = factoryFuncs.createEventHTML(event)
+        render.renderEvent(htmlRep)
+        console.log(event)
+    });
+})
