@@ -12,8 +12,14 @@ const API = {
             "body": JSON.stringify(articles)
         })
             .then(res => res.json())
-
-    }
+        },
+        
+        fetchEvents () {
+            return fetch("http://localhost:8088/events")
+            .then (data => data.json())
+        }
+    
 }
 
-export default newsArticles
+
+export default API
