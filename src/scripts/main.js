@@ -1,5 +1,13 @@
-const message = "Time to build an application that gives you all the information you need in a Nutshell"
+import login from "./login.js"
+import signupForm from "./register.js"
+import factoryFunc from "./factory.js"
 
-document.querySelector("#container").innerHTML = `<h1>${message}</h1>`
-
-console.log(message)
+ if (sessionStorage.userId === undefined) {
+    login.createAndAppendLoginInput();
+    signupForm.createAndAppendRegistrationForm();
+    console.log(sessionStorage.userId)
+  } 
+  if (sessionStorage.userId >= 1) {
+     
+}
+ 
