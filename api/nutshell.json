@@ -9,6 +9,11 @@
       "id": 2,
       "username": "jimbo",
       "email": "jimbo@gmail.com"
+    },
+    {
+      "username": "eric",
+      "email": "eric@gmail.com",
+      "id": 3
     }
   ],
   "events": [

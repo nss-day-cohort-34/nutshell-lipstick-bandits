@@ -1,6 +1,6 @@
-import API from "./data.js"
-import factoryFuncs from "./factory.js"
-import render from "./dom.js"
+import login from "./login.js"
+import signupForm from "./register.js"
+import factoryFunc from "./factory.js"
 
 const dashboard = document.querySelector("#dashboard")
 
@@ -121,3 +121,12 @@ dashboard.addEventListener("click", event => {
 // showTest.addEventListener("click", () => {
 //     dashboard.classList.toggle("show")
 // })
+ if (sessionStorage.userId === undefined) {
+    login.createAndAppendLoginInput();
+    signupForm.createAndAppendRegistrationForm();
+    console.log(sessionStorage.userId)
+  } 
+  if (sessionStorage.userId >= 1) {
+     
+}
+ 
