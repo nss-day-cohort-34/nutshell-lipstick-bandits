@@ -13,11 +13,11 @@
   ],
   "events": [
     {
-      "id": 1,
       "eventName": "Storm Area 51",
-      "eventDate": "2019-09-20",
       "eventLocation": "Lincoln County, NV",
-      "userId": 1
+      "eventDate": "2019-09-20",
+      "userId": 1,
+      "id": 1
     }
   ],
   "tasks": [
