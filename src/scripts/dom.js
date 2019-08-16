@@ -1,7 +1,11 @@
 const eventInDom = document.querySelector("#eventsContainer")
+const articleInDom = document.querySelector("#articleContainer")
 
 const render = {
-    renderEvent (htmlRep) {
+    renderArticle(htmlRep) {
+        articleInDom.innerHTML += htmlRep
+    },
+    renderEvent(htmlRep) {
         eventInDom.innerHTML += htmlRep
     }
 }

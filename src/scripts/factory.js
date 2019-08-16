@@ -1,14 +1,15 @@
 const factoryFuncs = {
-    createArticleHTML (articleObj) {
-    return `
-        <div class="article">
-            <p>${articleObject.name}</p>
-            <p>${contactObject.phoneNumber}</p>
-            <p>${contactObject.address}</p>
-            </div>
-            `
+    createArticleHTML(articleObj) {
+        return `
+        <section>
+            <h1>${articleObj.articleTitle}</h1>
+            <p>${articleObj.articleSummary}</p>
+            <p>${articleObj.articleURL}</p>
+            <button class="editArticle--${articleObj.id}">Edit</button>
+            <button class="deleteArticle--${articleObj.id}">Delete</button>
+            </section>`
     },
-    createEventHTML (eventObj) {
+    createEventHTML(eventObj) {
         return `
         <section>
             <h1>${eventObj.eventName}</h1>

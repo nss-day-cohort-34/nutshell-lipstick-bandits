@@ -9,3 +9,10 @@ API.fetchEvents().then(events => {
         console.log(event)
     });
 })
+API.getArticles().then(articles => {
+    articles.forEach(article => {
+        const htmlRep = factoryFuncs.createArticleHTML(article)
+        render.renderArticle(htmlRep)
+        console.log(article)
+    });
+})
