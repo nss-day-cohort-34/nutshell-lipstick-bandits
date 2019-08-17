@@ -14,6 +14,11 @@
       "username": "eric",
       "email": "eric@gmail.com",
       "id": 3
+    },
+    {
+      "username": "noah",
+      "email": "noah@gmail.com",
+      "id": 4
     }
   ],
   "events": [
@@ -23,6 +28,13 @@
       "eventDate": "2019-09-20",
       "userId": 1,
       "id": 1
+    },
+    {
+      "eventName": "The test",
+      "eventLocation": "home",
+      "eventDate": "2019-08-16",
+      "userId": 1,
+      "id": 2
     }
   ],
   "tasks": [

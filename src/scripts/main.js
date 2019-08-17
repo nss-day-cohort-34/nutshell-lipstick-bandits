@@ -1,10 +1,11 @@
 import login from "./login.js"
 import signupForm from "./register.js"
-import factoryFunc from "./factory.js"
+import API from "./data.js"
+import render from "./dom.js"
+
 
 const dashboard = document.querySelector("#dashboard")
 
-dashboard.innerHTML = factoryFuncs.createDOM()
 
 const eventsContainer = document.querySelector("#eventsContainer")
 
@@ -21,11 +22,20 @@ const hiddenField = document.querySelector("#eventID")
 
 const saveEventButton = document.querySelector("#saveEventButton")
 
+if (sessionStorage.userId === undefined) {
+    login.createAndAppendLoginInput();
+    signupForm.createAndAppendRegistrationForm();
+    console.log(sessionStorage.userId)
+}
+if (sessionStorage.userId >= 1) {
+
+}
+
 
 // get all events
-API.fetchEvents().then(events => {
-    render.renderEvent(events)
-})
+// API.fetchEvents().then(events => {
+//     render.renderEvent(events)
+// })
 
 // delete event
 dashboard.addEventListener("click", event => {
@@ -44,50 +54,65 @@ dashboard.addEventListener("click", event => {
     }
 })
 
-showEventDialog.addEventListener("click", event => {
-    const showEventDialog = document.querySelector(".showEvent")
-    eventDialog.show()
-})
-hideEventDialog.addEventListener("click", event => {
-    const hideEventDialog = document.querySelector(".hideEvent")
-    const eventNameInput = document.querySelector("#eventNameInput")
-    const eventLocationInput = document.querySelector("#eventLocationInput")
-    const eventDateInput = document.querySelector("#eventDateInput")
-    const newEvent = {
-        eventName: eventNameInput.value,
-        eventLocation: eventLocationInput.value,
-        eventDate: eventDateInput.value,
-        userId: 1
+dashboard.addEventListener("click", event => {
+    const showEventDialog = document.querySelector("#addEvent")
+    if (event.target.id.startsWith("addEvent")) {
+        const eventDialog = document.querySelector("#eventDialog")
+        eventDialog.show()
     }
-    console.log(newEvent)
-    if (hiddenField.value !== "") {
-        API.editEvent(hiddenField.value, newEvent)
-            .then(() => {
+})
+dashboard.addEventListener("click", event => {
+    const saveEventButton = document.querySelector("#saveEventButton")
+    if (event.target.id.startsWith("saveEventButton")) {
+        const eventNameInput = document.querySelector("#eventNameInput")
+        const eventLocationInput = document.querySelector("#eventLocationInput")
+        const eventDateInput = document.querySelector("#eventDateInput")
+        const newEvent = {
+            eventName: eventNameInput.value,
+            eventLocation: eventLocationInput.value,
+            eventDate: eventDateInput.value,
+            userId: 1
+        }
+        console.log(newEvent)
+        const hiddenField = document.querySelector("#eventID")
+        if (hiddenField.value !== "") {
+            API.editEvent(hiddenField.value, newEvent)
+                .then(() => {
+                    const eventsContainer = document.querySelector("#eventsContainer")
+                    eventsContainer.innerHTML = ""
+                    API.fetchEvents().then(events => {
+                        render.renderEvent(events)
+                    })
+                    hiddenField.value = ""
+                    eventNameInput.value = ""
+                    eventLocationInput.value = ""
+                    eventDateInput.value = ""
+                }
+                )
+        } else {
+            API.postEvent(newEvent).then(() => {
+                const eventsContainer = document.querySelector("#eventsContainer")
                 eventsContainer.innerHTML = ""
                 API.fetchEvents().then(events => {
                     render.renderEvent(events)
                 })
-                hiddenField.innerHTML = ""
                 eventNameInput.value = ""
                 eventLocationInput.value = ""
                 eventDateInput.value = ""
-            }
-            )
-    } else {
-        API.postEvent(newEvent).then(() => {
-            eventsContainer.innerHTML = ""
-            API.fetchEvents().then(events => {
-                render.renderEvent(events)
             })
-        })
+        }
+        const eventDialog = document.querySelector("#eventDialog")
+        eventDialog.close()
+        saveEventButton.innerHTML = "Save"
     }
-    eventDialog.close()
-    saveEventButton.innerHTML = "Save"
 })
 
-cancelEventDialog.addEventListener("click", () => {
-    const cancelEventDialog = document.querySelector(".cancelEventDialog")
-    eventDialog.close()
+dashboard.addEventListener("click", event => {
+    const cancelEventDialog = document.querySelector("#cancelDialogEventBox")
+    if (event.target.id.startsWith("cancelDialogEventBox")) {
+        const eventDialog = document.querySelector("#eventDialog")
+        eventDialog.close()
+    }
 })
 
 const populateDialogToEdit = (eventId) => {
@@ -102,7 +127,9 @@ const populateDialogToEdit = (eventId) => {
             eventNameInput.value = event.eventName
             eventLocationInput.value = event.eventLocation
             eventDateInput.value = event.eventDate
+            const eventDialog = document.querySelector("#eventDialog")
             eventDialog.show()
+            const saveEventButton = document.querySelector("#saveEventButton")
             saveEventButton.innerHTML = "Edit"
         })
 }
@@ -115,18 +142,4 @@ dashboard.addEventListener("click", event => {
     }
 })
 
-// const showTest = document.querySelector("#showTest")
-// const dashboard = document.querySelector("#dashboard")
 
-// showTest.addEventListener("click", () => {
-//     dashboard.classList.toggle("show")
-// })
- if (sessionStorage.userId === undefined) {
-    login.createAndAppendLoginInput();
-    signupForm.createAndAppendRegistrationForm();
-    console.log(sessionStorage.userId)
-  } 
-  if (sessionStorage.userId >= 1) {
-     
-}
- 
