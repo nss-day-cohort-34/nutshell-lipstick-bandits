@@ -63,9 +63,9 @@ dashboard.addEventListener("click", event => {
 })
 dashboard.addEventListener("click", event => {
         const now = new Date()
-        const day = ("0" + now.getDate()).slice(-2)
+        const day = now.getDate()
         const month = ("0" + (now.getMonth() + 1)).slice(-2)
-        const today = now.getFullYear() + "-" + (month) + "-" + (day)
+        const today = `${now.getFullYear()}-${month}-${day}`
     const saveEventButton = document.querySelector("#saveEventButton")
     if (event.target.id.startsWith("saveEventButton")) {
         const eventNameInput = document.querySelector("#eventNameInput")
