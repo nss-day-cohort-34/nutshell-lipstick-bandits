@@ -35,6 +35,13 @@
       "eventDate": "2019-08-16",
       "userId": 1,
       "id": 2
+    },
+    {
+      "eventName": "testing for userId",
+      "eventLocation": "home",
+      "eventDate": "2019-08-16",
+      "userId": "4",
+      "id": 3
     }
   ],
   "tasks": [

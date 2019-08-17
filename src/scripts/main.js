@@ -71,7 +71,7 @@ dashboard.addEventListener("click", event => {
             eventName: eventNameInput.value,
             eventLocation: eventLocationInput.value,
             eventDate: eventDateInput.value,
-            userId: 1
+            userId: sessionStorage.getItem("userId")
         }
         console.log(newEvent)
         const hiddenField = document.querySelector("#eventID")
