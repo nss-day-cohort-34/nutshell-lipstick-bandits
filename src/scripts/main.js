@@ -62,6 +62,10 @@ dashboard.addEventListener("click", event => {
     }
 })
 dashboard.addEventListener("click", event => {
+        const now = new Date()
+        const day = ("0" + now.getDate()).slice(-2)
+        const month = ("0" + (now.getMonth() + 1)).slice(-2)
+        const today = now.getFullYear() + "-" + (month) + "-" + (day)
     const saveEventButton = document.querySelector("#saveEventButton")
     if (event.target.id.startsWith("saveEventButton")) {
         const eventNameInput = document.querySelector("#eventNameInput")
@@ -75,7 +79,7 @@ dashboard.addEventListener("click", event => {
         }
         console.log(newEvent)
         const hiddenField = document.querySelector("#eventID")
-        if (hiddenField.value !== "") {
+        if (hiddenField.value !== "" && eventDateInput.value >= today) {
             API.editEvent(hiddenField.value, newEvent)
                 .then(() => {
                     const eventsContainer = document.querySelector("#eventsContainer")
@@ -87,9 +91,12 @@ dashboard.addEventListener("click", event => {
                     eventNameInput.value = ""
                     eventLocationInput.value = ""
                     eventDateInput.value = ""
+                    const eventDialog = document.querySelector("#eventDialog")
+                    eventDialog.close()
+                    saveEventButton.innerHTML = "Save"
                 }
                 )
-        } else {
+        } else if (eventDateInput.value >= today){
             API.postEvent(newEvent).then(() => {
                 const eventsContainer = document.querySelector("#eventsContainer")
                 eventsContainer.innerHTML = ""
@@ -99,11 +106,14 @@ dashboard.addEventListener("click", event => {
                 eventNameInput.value = ""
                 eventLocationInput.value = ""
                 eventDateInput.value = ""
+                const eventDialog = document.querySelector("#eventDialog")
+                eventDialog.close()
+                saveEventButton.innerHTML = "Save"
             })
+        } else {
+            window.alert("Cannot choose date that has already passed")
         }
-        const eventDialog = document.querySelector("#eventDialog")
-        eventDialog.close()
-        saveEventButton.innerHTML = "Save"
+
     }
 })
 
