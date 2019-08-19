@@ -14,15 +14,27 @@
       "username": "eric",
       "email": "eric@gmail.com",
       "id": 3
+    },
+    {
+      "username": "noah",
+      "email": "noah@gmail.com",
+      "id": 4
     }
   ],
   "events": [
     {
-      "id": 1,
       "eventName": "Storm Area 51",
-      "eventDate": "2019-09-20",
       "eventLocation": "Lincoln County, NV",
-      "userId": 1
+      "eventDate": "2019-09-20",
+      "userId": 1,
+      "id": 1
+    },
+    {
+      "eventName": "testing for userId",
+      "eventLocation": "home and nss",
+      "eventDate": "2019-08-20",
+      "userId": "4",
+      "id": 3
     }
   ],
   "tasks": [
