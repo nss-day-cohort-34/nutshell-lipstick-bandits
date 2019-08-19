@@ -8,6 +8,11 @@
     height: 400px;
     border: 1px solid black;
 }
+#eventsContainer {
+    height: 280px;
+    overflow: scroll;
+    border: 1px solid black;
+}
 
 #box1_article {
     flex-basis: 38%;

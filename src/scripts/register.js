@@ -1,4 +1,4 @@
-import API from "./api.js"
+import API from "./data.js"
 import login from "./login.js"
 
 const usernameInput = document.createElement("input")
@@ -80,4 +80,4 @@ const signupForm = {
 
 
 }
-export default signupForm    
+export default signupForm

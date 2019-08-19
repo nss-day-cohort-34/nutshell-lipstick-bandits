@@ -1,6 +1,7 @@
 
-import API from "./api.js"
+import API from "./data.js"
 import factoryFuncs from "./factory.js";
+import render from "./dom.js"
 
 
 const usernameInput = document.createElement("input")
@@ -54,14 +55,9 @@ const login = {
 
 
 
-
-
         loginButton.addEventListener("click", this.getUserData);
 
         registerButton.addEventListener("click", this.replaceWithRegistrationForm);
-
-
-
     },
     getUserData() {
         const username = usernameInput.value;
@@ -72,9 +68,9 @@ const login = {
                 allUsers.forEach(user => {
                     if (username === user.username && email === user.email) {
                         console.log(`${user.username} with user ID ${user.id} is the current user`)
-                        sessionStorage.setItem('userId', user.id)
-                        let userId = sessionStorage.getItem('userId');
-                        sessionStorage.setItem('userName', user.username)
+                        sessionStorage.setItem("userId", user.id)
+                        let userId = sessionStorage.getItem("userId");
+                        sessionStorage.setItem("userName", user.username)
 
                         loadUserSpecificPage(userId);
 
@@ -91,12 +87,7 @@ const login = {
                         location.reload();
                     }
                 })
-
-
-
-
             })
-
     },
 
     replaceWithRegistrationForm() {
