@@ -1,6 +1,7 @@
 import login from "./login.js"
 import signupForm from "./register.js"
-import factoryFunc from "./factory.js"
+import factoryFuncs from "./factory.js"
+import API from "./data.js"
 
 API.fetchEvents().then(events => {
     events.forEach(event => {
