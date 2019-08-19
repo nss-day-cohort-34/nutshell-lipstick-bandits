@@ -19,11 +19,8 @@ const signupForm = {
         registerContainer.appendChild(usernameInput)
         registerContainer.appendChild(emailInput)
         registerContainer.appendChild(newUser)
-
-
         newUser.addEventListener("click", this.registerUser)
-    }
-    ,
+    },
 
     registerUser() {
         const usernameValue = usernameInput.value;
@@ -43,4 +40,4 @@ const signupForm = {
 
 
 }
-export default signupForm    
+export default signupForm
