@@ -1,5 +1,3 @@
-import login from "./login.js"
-import signupForm from "./register.js"
 import API from "./data.js"
 import render from "./dom.js"
 import factoryFuncs from "./factory.js"
@@ -9,24 +7,31 @@ const dashboard = document.querySelector("#dashboard")
 
 
 if (sessionStorage.userId === undefined) {
-    login.createAndAppendLoginInput();
-    signupForm.createAndAppendRegistrationForm();
-    console.log(sessionStorage.userId)
+  login.createAndAppendLoginInput();
+  signupForm.createAndAppendRegistrationForm();
+  console.log(sessionStorage.userId)
 }
 if (sessionStorage.userId >= 1) {
-    dashboard.innerHTML = factoryFuncs.createDOM()
-    API.fetchEvents().then(events => {
+  dashboard.innerHTML = factoryFuncs.createDOM()
+  API.fetchEvents().then(events => {
         render.renderEvent(events)
     })
-}
-
-
-// delete event
-dashboard.addEventListener("click", event => {
+  }
+  
+  
+  dashboard.addEventListener("click", () => {
+    if (event.target.id === "pleasework") {
+      sessionStorage.clear();
+      location.reload();
+  
+    }
+  })
+  // delete event
+  dashboard.addEventListener("click", event => {
     if (event.target.id.startsWith("deleteEvent")) {
-        const eventsContainer = document.querySelector("#eventsContainer")
-        const eventId = event.target.id.split("--")[1]
-        eventsContainer.innerHTML = ""
+      const eventsContainer = document.querySelector("#eventsContainer")
+      const eventId = event.target.id.split("--")[1]
+      eventsContainer.innerHTML = ""
         console.log("Delete")
         API.deleteEvent(eventId)
             .then(() => {

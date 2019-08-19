@@ -1,5 +1,6 @@
+import login from "./login.js"
 const factoryFuncs = {
-    createEventHTML (eventObj) {
+    createEventHTML(eventObj) {
         return `
         <section>
             <h1>${eventObj.eventName}</h1>
@@ -15,7 +16,7 @@ const factoryFuncs = {
         return `
         <header>
             <h1>Nutshell</h1>
-            <button>Sign Out</button>
+       <button id="pleasework">Sign Out</button>
         </header>
         <section id="box1">
             <section id="box1_event">
@@ -63,7 +64,9 @@ const factoryFuncs = {
             </section>
         </section>
         `
+
     }
 }
+
 
 export default factoryFuncs
