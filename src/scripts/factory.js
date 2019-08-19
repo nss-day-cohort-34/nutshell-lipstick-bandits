@@ -12,7 +12,6 @@ const factoryFuncs = {
         </section>`
     },
     createDOM () {
-        
         return `
         <header>
             <h1>Nutshell</h1>
@@ -38,10 +37,10 @@ const factoryFuncs = {
                     <input type="date" id="eventDateInput">
                 </form>
                 <button id="saveEventButton" class="hideEvent">Save</button>
-                <button class="cancelEventDialog">Cancel</button>
+                <button id="cancelDialogEventBox" class="cancelEventDialog">Cancel</button>
                 </section>
             </dialog>
-            <button class="showEvent">Add</button>
+            <button id="addEvent" class="showEvent">Add</button>
             
             </section>
             <section id="box1_article">
