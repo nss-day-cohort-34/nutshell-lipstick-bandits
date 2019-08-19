@@ -27,15 +27,9 @@ const login = {
         outEl.appendChild(loginButton)
         outEl.appendChild(registerButton)
 
-
-
-
         loginButton.addEventListener("click", this.getUserData);
 
         registerButton.addEventListener("click", this.replaceWithRegistrationForm);
-
-
-
     },
     getUserData() {
         const username = usernameInput.value;
@@ -62,25 +56,11 @@ const login = {
                         loginPage.style.display = "none";
                         console.log(`This is the user page! ${userId}`);
                         const dashboard = document.querySelector("#dashboard")
-                        dashboard.innerHTML = factoryFuncs.createDOM()
-
-
-                        location.reload
-
-
-
-
+                        // dashboard.innerHTML = factoryFuncs.createDOM()
+                        location.reload()
                     }
-                    API.fetchEvents().then(events => {
-                        render.renderEvent(events)
-                    })
                 })
-
-
-
-
             })
-
     },
 
     replaceWithRegistrationForm() {

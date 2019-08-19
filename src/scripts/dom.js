@@ -9,7 +9,8 @@ const render = {
         eventsInDom.forEach(event => {
             const eventRep = factoryFuncs.createEventHTML(event)
             eventInDom.innerHTML += eventRep
-        });
+        })
+        // eventsInDom.sort((a,b) => new Date(b.eventDate) - new Date(a.eventDate))
     }
 }
 

@@ -2,25 +2,11 @@ import login from "./login.js"
 import signupForm from "./register.js"
 import API from "./data.js"
 import render from "./dom.js"
+import factoryFuncs from "./factory.js"
 
 
 const dashboard = document.querySelector("#dashboard")
 
-
-const eventsContainer = document.querySelector("#eventsContainer")
-
-const eventDialog = document.querySelector("#eventDialog")
-const showEventDialog = document.querySelector(".showEvent")
-const hideEventDialog = document.querySelector(".hideEvent")
-const cancelEventDialog = document.querySelector(".cancelEventDialog")
-
-const eventNameInput = document.querySelector("#eventNameInput")
-const eventLocationInput = document.querySelector("#eventLocationInput")
-const eventDateInput = document.querySelector("#eventDateInput")
-
-const hiddenField = document.querySelector("#eventID")
-
-const saveEventButton = document.querySelector("#saveEventButton")
 
 if (sessionStorage.userId === undefined) {
     login.createAndAppendLoginInput();
@@ -28,14 +14,12 @@ if (sessionStorage.userId === undefined) {
     console.log(sessionStorage.userId)
 }
 if (sessionStorage.userId >= 1) {
-
+    dashboard.innerHTML = factoryFuncs.createDOM()
+    API.fetchEvents().then(events => {
+        render.renderEvent(events)
+    })
 }
 
-
-// get all events
-// API.fetchEvents().then(events => {
-//     render.renderEvent(events)
-// })
 
 // delete event
 dashboard.addEventListener("click", event => {
@@ -54,6 +38,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
+// show dialog box
 dashboard.addEventListener("click", event => {
     const showEventDialog = document.querySelector("#addEvent")
     if (event.target.id.startsWith("addEvent")) {
@@ -61,6 +46,8 @@ dashboard.addEventListener("click", event => {
         eventDialog.show()
     }
 })
+
+// editing/adding with date validation
 dashboard.addEventListener("click", event => {
         const now = new Date()
         const day = now.getDate()
@@ -117,6 +104,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
+// cancel dialog box
 dashboard.addEventListener("click", event => {
     const cancelEventDialog = document.querySelector("#cancelDialogEventBox")
     if (event.target.id.startsWith("cancelDialogEventBox")) {
@@ -125,6 +113,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
+// populate form with previously written event for editing
 const populateDialogToEdit = (eventId) => {
     const eventNameInput = document.querySelector("#eventNameInput")
     const eventLocationInput = document.querySelector("#eventLocationInput")
@@ -144,6 +133,7 @@ const populateDialogToEdit = (eventId) => {
         })
 }
 
+// edit
 dashboard.addEventListener("click", event => {
     const eventsContainer = document.querySelector("#eventsContainer")
     if (event.target.id.startsWith("editEvent")) {
