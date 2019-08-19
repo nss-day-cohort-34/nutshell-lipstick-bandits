@@ -4,6 +4,7 @@ import API from "./data.js"
 import render from "./dom.js"
 import factoryFuncs from "./factory.js"
 
+<<<<<<< HEAD
 API.fetchEvents().then(events => {
     events.forEach(event => {
         const htmlRep = factoryFuncs.createEventHTML(event)
@@ -12,6 +13,8 @@ API.fetchEvents().then(events => {
     });
 })
  if (sessionStorage.userId === undefined) {
+=======
+>>>>>>> master
 
 const dashboard = document.querySelector("#dashboard")
 
