@@ -15,6 +15,8 @@ const factoryFuncs = {
     // createFriendHTML(friendObj) {
     //     return `
     //     <section>
+    //         <h1>${friendObj.username}</h1>
+    //         <button id="removeFriend--${friendObj.id}>Remove</button>
     //     </section>
     //     `
     // },

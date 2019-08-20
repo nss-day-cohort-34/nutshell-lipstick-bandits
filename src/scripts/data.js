@@ -48,12 +48,16 @@ const API = {
             body: JSON.stringify(content)
         })
     },
+    getUsers() {
+        return fetch("http://localhost:8088/users")
+        .then(data => data.json())
+    },
     searchUsers(username) {
         return fetch(`http://localhost:8088/users?q=${username}`)
         .then(data => data.json())
     },
     getFriendships() {
-        return fetch("http://localhost:8088/friendships")
+        return fetch("http://localhost:8088/friendships?_expand=user")
         .then(data => data.json())
     },
     addFriendship(newFriendship) {

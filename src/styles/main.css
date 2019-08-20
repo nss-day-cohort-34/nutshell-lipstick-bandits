@@ -14,6 +14,11 @@
     border: 1px solid black;
 }
 
+#friendContainer {
+    height: 120px;
+    overflow: scroll;
+}
+
 #box1_article {
     flex-basis: 38%;
     height: 400px;
@@ -122,4 +127,4 @@
    text-decoration: none;
    cursor: pointer;
 
-}    
+}

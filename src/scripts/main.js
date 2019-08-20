@@ -15,9 +15,37 @@ if (sessionStorage.userId === undefined) {
 }
 if (sessionStorage.userId >= 1) {
   dashboard.innerHTML = factoryFuncs.createDOM()
-  API.fetchEvents().then(events => {
+    API.fetchEvents().then(events => {
         render.renderEvent(events)
     })
+    const friendContainer = document.querySelector("#friendContainer")
+    API.getFriendships().then(friendships => {
+        const friends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === parseInt(sessionStorage.getItem("userId"))))
+        friends.forEach(friend => {
+            if (friend.userId === parseInt(sessionStorage.getItem("userId"))) {
+                API.getUsers().then(users => {
+                    users.forEach(user => {
+                        if (user.id === friend.friendId) {
+                            friendContainer.innerHTML += `<h1>${user.username}</h1><button>Remove Friend</button>`
+                        }
+                    });
+                })
+            } else {
+                friendContainer.innerHTML += `<h1>${friend.user.username}</h1><button>Remove Friend</button>`
+            }
+        });
+        console.log(friends)
+
+    })
+    // API.getUsers().then(users => {
+    //     // render.renderUsers(users)
+    //     const friendContainer = document.querySelector("#friendContainer")
+    //     users.forEach(user => {
+    //         if(user.id !== parseInt(sessionStorage.getItem("userId")) && (user.id === )) {
+    //             friendContainer.innerHTML += `<h1>${user.username}</h1><button>Remove</button>`
+    //         }
+    //     });
+    // })
   }
   
   
@@ -188,10 +216,30 @@ dashboard.addEventListener("click", event => {
                         }
                         API.addFriendship(newFriendship).then(() => {
                             friendContainer.innerHTML = ""
-                            // API.getFriendships().then(friends => {
-                            //     render.renderFriends(friends)
+                            API.getFriendships().then(friendships => {
+                                const friends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === parseInt(sessionStorage.getItem("userId"))))
+                                friends.forEach(friend => {
+                                    if (friend.userId === parseInt(sessionStorage.getItem("userId"))) {
+                                        API.getUsers().then(users => {
+                                            users.forEach(user => {
+                                                if (user.id === friend.friendId) {
+                                                    friendContainer.innerHTML += `<h1>${user.username}</h1><button>Remove Friend</button>`
+                                                }
+                                            });
+                                        })
+                                    } else {
+                                        friendContainer.innerHTML += `<h1>${friend.user.username}</h1><button>Remove Friend</button>`
+                                    }
+                                });
+                                console.log(friends)
+                        
+                            })
+                            // API.getUsers().then(users => {
+                            //     users.forEach(user => {
+                            //         console.log(areWeFriends)
+                            //     });
                             // })
-                            friendContainer.innerHTML += `<h1>${username[0].username}</h1><button id="removeFriend">Remove Friend</button>`
+                            // friendContainer.innerHTML += `<h1>${username[0].username}</h1><button id="removeFriend">Remove Friend</button>`
                         })
                         alert("Let's be friends")
                     } 

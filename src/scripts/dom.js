@@ -10,16 +10,19 @@ const render = {
             const eventRep = factoryFuncs.createEventHTML(event)
             eventInDom.innerHTML += eventRep
         })
-        // eventsInDom.sort((a,b) => new Date(b.eventDate) - new Date(a.eventDate))
-    // },
-    // renderFriends(friendsInDom) {
-    //     const friendInDom = document.querySelector("friendContainer")
-    //     friendInDom.innerHTML = ""
-    //     friendsInDom.forEach(friend => {
-    //         const friendRep = factoryFuncs.createFriendHTML(friend)
-    //         friendInDom.innerHTML += friendRep
-    //     })
     }
+    // renderFriends(friendsInDom) {
+    //     API.getFriendships().then(friendships => {
+    //     if (friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.userId === username[0].id) && (friendship.friendId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === username[0].id))) {
+    //         const friendInDom = document.querySelector("friendContainer")
+    //         friendInDom.innerHTML = ""
+    //         friendsInDom.forEach(friend => {
+    //             const friendRep = factoryFuncs.createFriendHTML(friend)
+    //             friendInDom.innerHTML += friendRep
+    //         })
+    //     }
+    // })
+    // }
 }
 
 export default render
