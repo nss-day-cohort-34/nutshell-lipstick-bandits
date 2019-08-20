@@ -47,6 +47,24 @@ const API = {
             },
             body: JSON.stringify(content)
         })
+    },
+    searchUsers(username) {
+        return fetch(`http://localhost:8088/users?q=${username}`)
+        .then(data => data.json())
+    },
+    getFriendships() {
+        return fetch("http://localhost:8088/friendships")
+        .then(data => data.json())
+    },
+    addFriendship(newFriendship) {
+        return fetch("http://localhost:8088/friendships", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newFriendship)
+        })
+            .then(data => data.json())
     }
 }
 

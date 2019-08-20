@@ -11,6 +11,14 @@ const render = {
             eventInDom.innerHTML += eventRep
         })
         // eventsInDom.sort((a,b) => new Date(b.eventDate) - new Date(a.eventDate))
+    // },
+    // renderFriends(friendsInDom) {
+    //     const friendInDom = document.querySelector("friendContainer")
+    //     friendInDom.innerHTML = ""
+    //     friendsInDom.forEach(friend => {
+    //         const friendRep = factoryFuncs.createFriendHTML(friend)
+    //         friendInDom.innerHTML += friendRep
+    //     })
     }
 }
 

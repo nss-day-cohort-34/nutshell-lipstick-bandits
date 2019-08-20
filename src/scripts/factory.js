@@ -12,7 +12,13 @@ const factoryFuncs = {
 
         </section>`
     },
-    createDOM () {
+    // createFriendHTML(friendObj) {
+    //     return `
+    //     <section>
+    //     </section>
+    //     `
+    // },
+    createDOM() {
         return `
         <header>
             <h1>Nutshell</h1>
@@ -59,8 +65,18 @@ const factoryFuncs = {
                 <article id="taskContainer"></article>
             </section>
             <section id="box2_friend">
+                <button id="addFriendButton">Add Friend</button>
                 <h1>Friends</h1>
                 <article id="friendContainer"></article>
+                <dialog id="friendDialog">
+                    <form action="">
+                        <label for="">Search Username</label>
+                        <input type="text" id="searchUsernameInput">
+                    </form>
+                    <button id="searchFriends">Search</button>
+                    <button id="cancelFriendSearch">Cancel</button>
+                    <section id="friendListContainer"></section>
+                </dialog>
             </section>
         </section>
         `

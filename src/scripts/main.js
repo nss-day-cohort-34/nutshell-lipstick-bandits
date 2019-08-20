@@ -1,3 +1,5 @@
+import login from "./login.js"
+import signupForm from "./register.js"
 import API from "./data.js"
 import render from "./dom.js"
 import factoryFuncs from "./factory.js"
@@ -23,7 +25,6 @@ if (sessionStorage.userId >= 1) {
     if (event.target.id === "pleasework") {
       sessionStorage.clear();
       location.reload();
-  
     }
   })
   // delete event
@@ -38,8 +39,7 @@ if (sessionStorage.userId >= 1) {
                 API.fetchEvents().then(events => {
                     render.renderEvent(events)
                 })
-            }
-            )
+            })
     }
 })
 
@@ -144,6 +144,61 @@ dashboard.addEventListener("click", event => {
     if (event.target.id.startsWith("editEvent")) {
         const eventId = event.target.id.split("--")[1]
         populateDialogToEdit(eventId)
+    }
+})
+
+
+dashboard.addEventListener("click", event => {
+    const addFriendButton = document.querySelector("#addFriendButton")
+    const friendDialog = document.querySelector("#friendDialog")
+    if (event.target.id.startsWith("addFriendButton")) {
+        friendDialog.show()
+    }
+})
+
+dashboard.addEventListener("click", event => {
+    const friendDialog = document.querySelector("#friendDialog")
+    const cancelFriendSearch = document.querySelector("#cancelFriendSearch")
+    const searchUsernameInput = document.querySelector("#searchUsernameInput")
+    const friendListContainer = document.querySelector("#friendListContainer")
+    if (event.target.id.startsWith("cancelFriendSearch")) {
+        friendListContainer.innerHTML = ""
+        searchUsernameInput.value = ""
+        friendDialog.close()
+    }
+})
+
+dashboard.addEventListener("click", event => {
+    const friendListContainer = document.querySelector("#friendListContainer")
+    const searchFriends = document.querySelector("#searchFriends")
+    const searchUsernameInput = document.querySelector("#searchUsernameInput")
+    const friendContainer = document.querySelector("#friendContainer")
+    if (event.target.id.startsWith("searchFriends")) {
+        API.searchUsers(searchUsernameInput.value).then(username => {
+            friendListContainer.innerHTML = `<h1>${username[0].username}</h1><button id="addFriend">Add Friend</button>`
+            const addFriend = document.querySelector("#addFriend")
+            addFriend.addEventListener("click", () => {
+                API.getFriendships().then(friendships => {
+                    const areWeFriends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.userId === username[0].id) && (friendship.friendId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === username[0].id));
+                    console.log(areWeFriends)
+                    if (areWeFriends.length === 0) {
+                        const newFriendship = {
+                            userId: parseInt(sessionStorage.getItem("userId")),
+                            friendId: username[0].id
+                        }
+                        API.addFriendship(newFriendship).then(() => {
+                            friendContainer.innerHTML = ""
+                            // API.getFriendships().then(friends => {
+                            //     render.renderFriends(friends)
+                            // })
+                            friendContainer.innerHTML += `<h1>${username[0].username}</h1><button id="removeFriend">Remove Friend</button>`
+                        })
+                        alert("Let's be friends")
+                    } 
+                })
+            })
+            // if (searchUsernameInput.value !== )
+        })
     }
 })
 
