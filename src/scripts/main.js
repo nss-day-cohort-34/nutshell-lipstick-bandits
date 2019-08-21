@@ -4,6 +4,7 @@ import API from "./data.js"
 import render from "./dom.js"
 import factoryFuncs from "./factory.js"
 
+// render friends
 const getFriendsOnDom = () => {
     API.getFriendships().then(friendships => {
     const friends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === parseInt(sessionStorage.getItem("userId"))))
@@ -135,7 +136,6 @@ dashboard.addEventListener("click", event => {
         } else {
             window.alert("Cannot choose date that has already passed")
         }
-
     }
 })
 
@@ -177,7 +177,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
-
+// show friend search dialog box
 dashboard.addEventListener("click", event => {
     const addFriendButton = document.querySelector("#addFriendButton")
     const friendDialog = document.querySelector("#friendDialog")
@@ -186,6 +186,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
+// cancel friend search
 dashboard.addEventListener("click", event => {
     const friendDialog = document.querySelector("#friendDialog")
     const cancelFriendSearch = document.querySelector("#cancelFriendSearch")
@@ -198,7 +199,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
-
+// search and add friend
 dashboard.addEventListener("click", event => {
     const friendListContainer = document.querySelector("#friendListContainer")
     const searchFriends = document.querySelector("#searchFriends")
@@ -233,6 +234,7 @@ dashboard.addEventListener("click", event => {
             }
         })
 
+// accept friendship and edit friendship in json
 dashboard.addEventListener("click", event => {
     if (event.target.id.startsWith("acceptFriend")) {
         const friendId = event.target.id.split("--")[1]
@@ -264,6 +266,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
+// delete friendship
 dashboard.addEventListener("click", event => {
     if (event.target.id.startsWith("deleteFriend")) {
         const friendId = event.target.id.split("--")[1]

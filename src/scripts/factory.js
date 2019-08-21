@@ -1,4 +1,3 @@
-import login from "./login.js"
 const factoryFuncs = {
     createEventHTML(eventObj) {
         if (parseInt(sessionStorage.getItem("userId")) === eventObj.user.id) {
