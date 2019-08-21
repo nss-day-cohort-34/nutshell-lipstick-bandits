@@ -13,7 +13,11 @@
     overflow: scroll;
     border: 1px solid black;
 }
-
+#messageContainer {
+    height: 280px;
+    overflow: scroll;
+    border: 1px solid black;
+}
 #box1_article {
     flex-basis: 38%;
     height: 400px;

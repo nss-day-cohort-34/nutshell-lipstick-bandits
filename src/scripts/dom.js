@@ -11,6 +11,15 @@ const render = {
             eventInDom.innerHTML += eventRep
         })
         // eventsInDom.sort((a,b) => new Date(b.eventDate) - new Date(a.eventDate))
+    },
+    renderMessage(chatboxes){
+        const chatbox= document.querySelector("#messageContainer")
+        chatbox.innerHTML=""
+        chatboxes.forEach(message=> {
+            const messageRep= factoryFuncs.createMessageHTML(message)
+            chatbox.innerHTML += messageRep
+
+        })
     }
 }
 

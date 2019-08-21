@@ -31,23 +31,64 @@ const API = {
         })
             .then(data => data.json())
     },
-    getData(target) {
-        return fetch(`http://localhost:8088/${target}`)
+    getData(resource) {
+        return fetch(`http://localhost:8088/${resource}`)
             .then(response => response.json())
     },
-    getcontentData(target, content) {
-        return fetch(`http://localhost:8088/${target}/${content}`)
+    getuserData() {
+        return fetch(`http://localhost:8088/users`)
             .then(response => response.json())
     },
-    postNewData(target, content) {
-        return fetch(`http://localhost:8088/${target}`, {
+    getMessage(messageId) {
+        return fetch(`http://localhost:8088/messages/${messageId}`)
+            .then(response => response.json())
+    },
+    postNewMessage(content) {
+        return fetch(`http://localhost:8088/messages`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(content)
         })
-    }
+        .then(data=> data.json())
+    },
+    postNewData(resource,content) {
+        return fetch(`http://localhost:8088/${resource}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(content)
+        })},
+   
+    fetchMessages() {
+        return fetch("http://localhost:8088/messages?_expand=user")
+            .then(data => data.json())
+    },
+
+    putExistingMessage(messageId, messageToEdit) {
+        return fetch(`http://localhost:8088/messages/${messageId}`, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(messageToEdit)
+        })
+      },
+      // In order to edit an existing food item, we need the id to identify which food item we want to edit and the new data we want to replace the existing data with. So this time, we have two arguments for the method.
+      patchExistingMessage(messageId, messageToEdit) {
+        return fetch(`http://localhost:8088/messages/${messageId}`, {
+          method: "PATCH",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(messageToEdit)
+        })
+      }
+
+
+
 }
 
 export default API

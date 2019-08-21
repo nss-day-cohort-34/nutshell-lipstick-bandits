@@ -1,4 +1,6 @@
 import login from "./login.js"
+import API from "./data.js";
+import messageList from "./messageapi.js"
 const factoryFuncs = {
     createEventHTML(eventObj) {
         return `
@@ -11,8 +13,59 @@ const factoryFuncs = {
             <button id="deleteEvent--${eventObj.id}">Delete</button>
 
         </section>`
+
     },
-    createDOM () {
+
+    createMessageHTML(messageObj) {
+        if (sessionStorage.userId == messageObj.userId) {
+            return `<section id = "message--${messageObj.id}">
+        <p>${messageObj.message}</p>
+        <h5>Message from: ${messageObj.user.username}</h5>
+        <button id="editMessage--${messageObj.id}">Edit</button>
+        </section>`}
+        else return `<section>
+        <p>${messageObj.message}</p>
+        <h5>Message from: ${messageObj.user.username}</h5></section>`
+
+    },
+    createAndAppendForm(messageId, messageObjToEdit) {
+
+        let messageField = document.createElement("p")
+        let messageLabel = document.createElement("label")
+        messageLabel.textContent = "Message"
+        let messageInput = document.createElement("input")
+        messageInput.value = messageObjToEdit.message
+
+        messageField.appendChild(messageLabel)
+        messageField.appendChild(messageInput)
+
+        let submitEditButton = document.createElement("button")
+        submitEditButton.textContent = "Save"
+        submitEditButton.addEventListener("click", () => {
+            let editedMessage = {
+                message: messageInput.value,
+
+            }
+
+            API.patchExistingMessage(messageObjToEdit.id, editedMessage)
+                .then(response => {
+                    messageList.postMessage()
+                })
+        })
+
+
+        const messageSection = document.getElementById(`message--${messageId}`)
+
+
+        while (messageSection.firstChild) {
+            messageSection.removeChild(messageSection.firstChild);
+        }
+        messageSection.appendChild(messageField)
+        messageSection.appendChild(submitEditButton)
+    },
+
+
+    createDOM() {
         return `
         <header>
             <h1>Nutshell</h1>
@@ -50,7 +103,10 @@ const factoryFuncs = {
             </section>
             <section id="box1_message">
             <h1>Messages</h1>
-            <article id="messageContainer"></article>
+            <article id="messageContainer">
+            </article>
+            <input  placeholder="Enter a message" type="text" id="messageInput">
+            <button id="addMessage">Send</button>
             </section>
         </section>
         <section id="box2">
