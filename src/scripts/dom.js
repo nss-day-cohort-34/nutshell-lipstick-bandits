@@ -11,9 +11,10 @@ const render = {
             if (eventInDom.innerHTML === "") {
                 const eventRep = factoryFuncs.createFirstEventHTML(event)
                 eventInDom.innerHTML += eventRep
+            } else if (eventInDom.innerHTML !== "") {
+                const eventRep = factoryFuncs.createEventHTML(event)
+                eventInDom.innerHTML += eventRep
             }
-            const eventRep = factoryFuncs.createEventHTML(event)
-            eventInDom.innerHTML += eventRep
         })
     }
 }
