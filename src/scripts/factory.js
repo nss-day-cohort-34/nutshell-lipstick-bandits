@@ -3,9 +3,10 @@ import API from "./data.js";
 import messageList from "./messageapi.js"
 const factoryFuncs = {
     createEventHTML(eventObj) {
+        if (parseInt(sessionStorage.getItem("userId")) === eventObj.user.id) {
         return `
         <section>
-            <h1>${eventObj.eventName}</h1>
+            <h2>${eventObj.eventName}</h2>
             <p>${eventObj.eventLocation}</p>
             <p>${eventObj.eventDate}</p>
             <p>Event Created by ${eventObj.user.username}</p>
@@ -14,8 +15,40 @@ const factoryFuncs = {
 
         </section>`
 
+        
+        
+    } else {
+        return `
+        <section>
+        <h2>${eventObj.eventName}</h2>
+                <p>${eventObj.eventLocation}</p>
+                <p>${eventObj.eventDate}</p>
+                <p>Event Created by ${eventObj.user.username}</p>`
+        }
     },
-
+    createFirstEventHTML(eventObj) {
+        if (parseInt(sessionStorage.getItem("userId")) === eventObj.user.id) {
+            return `
+            <section>
+            <h2 class="firstEvent">${eventObj.eventName}</h2>
+                <p>${eventObj.eventLocation}</p>
+                <p>${eventObj.eventDate}</p>
+                <p>Event Created by ${eventObj.user.username}</p>
+                <button id="editEvent--${eventObj.id}">Edit</button>
+                <button id="deleteEvent--${eventObj.id}">Delete</button>
+                
+                </section>`
+            } else {
+                return `
+                <section>
+                <h2 class="firstEvent">${eventObj.eventName}</h2>
+                <p>${eventObj.eventLocation}</p>
+                <p>${eventObj.eventDate}</p>
+                <p>Event Created by ${eventObj.user.username}</p>`
+            }
+        },
+    
+    
     createMessageHTML(messageObj) {
         if (sessionStorage.userId == messageObj.userId) {
             return `<section id = "message--${messageObj.id}">
@@ -26,45 +59,43 @@ const factoryFuncs = {
         else return `<section>
         <p>${messageObj.message}</p>
         <h5>Message from: ${messageObj.user.username}</h5></section>`
-
+    
     },
     createAndAppendForm(messageId, messageObjToEdit) {
-
+    
         let messageField = document.createElement("p")
         let messageLabel = document.createElement("label")
         messageLabel.textContent = "Message"
         let messageInput = document.createElement("input")
         messageInput.value = messageObjToEdit.message
-
+    
         messageField.appendChild(messageLabel)
         messageField.appendChild(messageInput)
-
+    
         let submitEditButton = document.createElement("button")
         submitEditButton.textContent = "Save"
         submitEditButton.addEventListener("click", () => {
             let editedMessage = {
                 message: messageInput.value,
-
+    
             }
-
+    
             API.patchExistingMessage(messageObjToEdit.id, editedMessage)
                 .then(response => {
                     messageList.postMessage()
                 })
         })
-
-
+    
+    
         const messageSection = document.getElementById(`message--${messageId}`)
-
-
+    
+    
         while (messageSection.firstChild) {
             messageSection.removeChild(messageSection.firstChild);
         }
         messageSection.appendChild(messageField)
         messageSection.appendChild(submitEditButton)
     },
-
-
     createDOM() {
         return `
         <header>
@@ -74,7 +105,6 @@ const factoryFuncs = {
         <section id="box1">
             <section id="box1_event">
             <h1>Events</h1>
-            <article id="eventsContainer"></article>
             <dialog id="eventDialog">
                 <input type="hidden" id="eventID" value="" />
                 <section>
@@ -94,6 +124,16 @@ const factoryFuncs = {
                 <button id="cancelDialogEventBox" class="cancelEventDialog">Cancel</button>
                 </section>
             </dialog>
+            <dialog id="friendDialog">
+                    <form action="">
+                        <label for="">Search Username</label>
+                        <input type="text" id="searchUsernameInput">
+                    </form>
+                    <button id="searchFriends">Search</button>
+                    <button id="cancelFriendSearch">Cancel</button>
+                    <section id="friendListContainer"></section>
+                </dialog>
+            <article id="eventsContainer"></article>
             <button id="addEvent" class="showEvent">Add</button>
             
             </section>
@@ -115,8 +155,10 @@ const factoryFuncs = {
                 <article id="taskContainer"></article>
             </section>
             <section id="box2_friend">
+                <button id="addFriendButton">Add Friend</button>
                 <h1>Friends</h1>
                 <article id="friendContainer"></article>
+                
             </section>
         </section>
         `

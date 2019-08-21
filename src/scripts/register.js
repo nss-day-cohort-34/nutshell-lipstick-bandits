@@ -13,7 +13,7 @@ const signupForm = {
 
     createAndAppendRegistrationForm() {
         const registerContainer = document.createElement("div")
-        registerContainer.setAttribute("class", "formcontainer")
+        registerContainer.setAttribute("class","formcontainer")
 
         const registerHeader = document.createElement("h2")
         registerContainer.appendChild(registerHeader)
@@ -55,10 +55,9 @@ const signupForm = {
         registerContainer.appendChild(emailInputConfirm)
         registerContainer.appendChild(newUser)
         registerPage.appendChild(registerContainer)
-        usernameInput.addEventListener("keyup", this.enableDisable)
-        //      newUser.disabled=true;
+        usernameInput.addEventListener("keyup",this.enableDisable)
+// newUser.disabled=true;
         newUser.addEventListener("click", this.registerUser);
-
     },
 
 
