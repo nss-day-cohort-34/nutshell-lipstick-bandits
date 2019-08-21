@@ -69,7 +69,26 @@ const API = {
             body: JSON.stringify(newFriendship)
         })
             .then(data => data.json())
+    },
+    editFriendship(friendshipId, updatedFriendship) {
+        return fetch(`http://localhost:8088/friendships/${friendshipId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedFriendship)
+        })
+            .then(data => data.json())
+    },
+    deleteFriendship(friendshipId) {
+        return fetch(`http://localhost:8088/friendships/${friendshipId}`,
+            {
+                "method": "DELETE"
+            }
+        )
+            .then(data => data.json())
     }
+
 }
 
 export default API

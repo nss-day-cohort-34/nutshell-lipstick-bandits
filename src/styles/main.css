@@ -4,30 +4,36 @@
 }
 
 #box1_event {
-    flex-basis: 38%;
-    height: 400px;
+    flex-basis: 40%;
+    height: 500px;
     border: 1px solid black;
 }
 #eventsContainer {
-    height: 280px;
+    height: 380px;
     overflow: scroll;
     border: 1px solid black;
 }
 
+.firstEvent {
+    color: rgb(107, 1, 1);
+    font-style: italic;
+    font-size: 2em;
+}
+
 #friendContainer {
-    height: 120px;
+    height: 220px;
     overflow: scroll;
 }
 
 #box1_article {
-    flex-basis: 38%;
-    height: 400px;
+    flex-basis: 40%;
+    height: 500px;
     border: 1px solid black;
 }
 
 #box1_message {
-    flex-basis: 22%;
-    height: 400px;
+    flex-basis: 20%;
+    height: 500px;
     border: 1px solid black;
 }
 
@@ -37,14 +43,14 @@
 }
 
 #box2_task {
-    flex-basis: 76%;
-    height: 200px;
+    flex-basis: 78%;
+    height: 300px;
     border: 1px solid black;
 }
 
 #box2_friend {
     flex-basis: 22%;
-    height: 200px;
+    height: 300px;
     border: 1px solid black;
 }
 .formcontainer{

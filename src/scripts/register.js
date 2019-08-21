@@ -59,7 +59,7 @@ const signupForm = {
 // newUser.disabled=true;
         newUser.addEventListener("click", this.registerUser);
     },
- 
+
 
     registerUser() {
         const usernameValue = usernameInput.value;

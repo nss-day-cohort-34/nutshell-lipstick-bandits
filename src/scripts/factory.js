@@ -1,9 +1,10 @@
 import login from "./login.js"
 const factoryFuncs = {
     createEventHTML(eventObj) {
+        if (parseInt(sessionStorage.getItem("userId")) === eventObj.user.id) {
         return `
         <section>
-            <h1>${eventObj.eventName}</h1>
+            <h2>${eventObj.eventName}</h2>
             <p>${eventObj.eventLocation}</p>
             <p>${eventObj.eventDate}</p>
             <p>Event Created by ${eventObj.user.username}</p>
@@ -11,15 +12,36 @@ const factoryFuncs = {
             <button id="deleteEvent--${eventObj.id}">Delete</button>
 
         </section>`
+        } else {
+            return `
+            <section>
+                <h2>${eventObj.eventName}</h2>
+                <p>${eventObj.eventLocation}</p>
+                <p>${eventObj.eventDate}</p>
+                <p>Event Created by ${eventObj.user.username}</p>`
+        }
     },
-    // createFriendHTML(friendObj) {
-    //     return `
-    //     <section>
-    //         <h1>${friendObj.username}</h1>
-    //         <button id="removeFriend--${friendObj.id}>Remove</button>
-    //     </section>
-    //     `
-    // },
+    createFirstEventHTML(eventObj) {
+        if (parseInt(sessionStorage.getItem("userId")) === eventObj.user.id) {
+            return `
+            <section>
+                <h2 class="firstEvent">${eventObj.eventName}</h2>
+                <p>${eventObj.eventLocation}</p>
+                <p>${eventObj.eventDate}</p>
+                <p>Event Created by ${eventObj.user.username}</p>
+                <button id="editEvent--${eventObj.id}">Edit</button>
+                <button id="deleteEvent--${eventObj.id}">Delete</button>
+    
+            </section>`
+            } else {
+                return `
+                <section>
+                    <h2 class="firstEvent">${eventObj.eventName}</h2>
+                    <p>${eventObj.eventLocation}</p>
+                    <p>${eventObj.eventDate}</p>
+                    <p>Event Created by ${eventObj.user.username}</p>`
+            }
+    },
     createDOM() {
         return `
         <header>
@@ -29,7 +51,6 @@ const factoryFuncs = {
         <section id="box1">
             <section id="box1_event">
             <h1>Events</h1>
-            <article id="eventsContainer"></article>
             <dialog id="eventDialog">
                 <input type="hidden" id="eventID" value="" />
                 <section>
@@ -49,6 +70,16 @@ const factoryFuncs = {
                 <button id="cancelDialogEventBox" class="cancelEventDialog">Cancel</button>
                 </section>
             </dialog>
+            <dialog id="friendDialog">
+                    <form action="">
+                        <label for="">Search Username</label>
+                        <input type="text" id="searchUsernameInput">
+                    </form>
+                    <button id="searchFriends">Search</button>
+                    <button id="cancelFriendSearch">Cancel</button>
+                    <section id="friendListContainer"></section>
+                </dialog>
+            <article id="eventsContainer"></article>
             <button id="addEvent" class="showEvent">Add</button>
             
             </section>
@@ -70,15 +101,7 @@ const factoryFuncs = {
                 <button id="addFriendButton">Add Friend</button>
                 <h1>Friends</h1>
                 <article id="friendContainer"></article>
-                <dialog id="friendDialog">
-                    <form action="">
-                        <label for="">Search Username</label>
-                        <input type="text" id="searchUsernameInput">
-                    </form>
-                    <button id="searchFriends">Search</button>
-                    <button id="cancelFriendSearch">Cancel</button>
-                    <section id="friendListContainer"></section>
-                </dialog>
+                
             </section>
         </section>
         `

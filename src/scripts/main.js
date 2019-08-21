@@ -4,6 +4,34 @@ import API from "./data.js"
 import render from "./dom.js"
 import factoryFuncs from "./factory.js"
 
+const getFriendsOnDom = () => {
+    API.getFriendships().then(friendships => {
+    const friends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === parseInt(sessionStorage.getItem("userId"))))
+    friends.forEach(friend => {
+        if (friend.userId === parseInt(sessionStorage.getItem("userId")) && friend.friends === true) {
+            API.getUsers().then(users => {
+                users.forEach(user => {
+                    if (user.id === friend.friendId) {
+                        friendContainer.innerHTML += `<h2>${user.username}</h2><button id="deleteFriend--${friend.userId}">Remove Friend</button>`
+                    }
+                });
+            })
+        } else if (friend.userId !== parseInt(sessionStorage.getItem("userId")) && friend.friends === true) {
+            friendContainer.innerHTML += `<h2>${friend.user.username}</h2><button id="deleteFriend--${friend.userId}">Remove Friend</button>`
+        } else if(friend.userId === parseInt(sessionStorage.getItem("userId")) && friend.friends === false) {
+            API.getUsers().then(users => {
+                users.forEach(user => {
+                    if (user.id === friend.friendId) {
+                        friendContainer.innerHTML += `<h2>${user.username}</h2><p>Pending</p>`
+                    }
+                });
+            })
+        } else if(friend.userId !== parseInt(sessionStorage.getItem("userId")) && friend.friends === false) {
+            friendContainer.innerHTML += `<h2>${friend.user.username}</h2><p>Pending</p><button id="acceptFriend--${friend.userId}">Accept</button>`
+        }
+    });
+})
+}
 
 const dashboard = document.querySelector("#dashboard")
 
@@ -19,36 +47,10 @@ if (sessionStorage.userId >= 1) {
         render.renderEvent(events)
     })
     const friendContainer = document.querySelector("#friendContainer")
-    API.getFriendships().then(friendships => {
-        const friends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === parseInt(sessionStorage.getItem("userId"))))
-        friends.forEach(friend => {
-            if (friend.userId === parseInt(sessionStorage.getItem("userId"))) {
-                API.getUsers().then(users => {
-                    users.forEach(user => {
-                        if (user.id === friend.friendId) {
-                            friendContainer.innerHTML += `<h1>${user.username}</h1><button>Remove Friend</button>`
-                        }
-                    });
-                })
-            } else {
-                friendContainer.innerHTML += `<h1>${friend.user.username}</h1><button>Remove Friend</button>`
-            }
-        });
-        console.log(friends)
-
-    })
-    // API.getUsers().then(users => {
-    //     // render.renderUsers(users)
-    //     const friendContainer = document.querySelector("#friendContainer")
-    //     users.forEach(user => {
-    //         if(user.id !== parseInt(sessionStorage.getItem("userId")) && (user.id === )) {
-    //             friendContainer.innerHTML += `<h1>${user.username}</h1><button>Remove</button>`
-    //         }
-    //     });
-    // })
+    getFriendsOnDom()
   }
-  
-  
+
+
   dashboard.addEventListener("click", () => {
     if (event.target.id === "pleasework") {
       sessionStorage.clear();
@@ -196,6 +198,7 @@ dashboard.addEventListener("click", event => {
     }
 })
 
+
 dashboard.addEventListener("click", event => {
     const friendListContainer = document.querySelector("#friendListContainer")
     const searchFriends = document.querySelector("#searchFriends")
@@ -207,47 +210,75 @@ dashboard.addEventListener("click", event => {
             const addFriend = document.querySelector("#addFriend")
             addFriend.addEventListener("click", () => {
                 API.getFriendships().then(friendships => {
-                    const areWeFriends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.userId === username[0].id) && (friendship.friendId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === username[0].id));
+                    const areWeFriends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.userId === username[0].id) && (friendship.friendId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === username[0].id) && username[0].username === parseInt(sessionStorage.getItem("userId")));
                     console.log(areWeFriends)
                     if (areWeFriends.length === 0) {
                         const newFriendship = {
                             userId: parseInt(sessionStorage.getItem("userId")),
-                            friendId: username[0].id
+                            friendId: username[0].id,
+                            friends: false
                         }
                         API.addFriendship(newFriendship).then(() => {
                             friendContainer.innerHTML = ""
-                            API.getFriendships().then(friendships => {
-                                const friends = friendships.filter(friendship => (friendship.userId === parseInt(sessionStorage.getItem("userId")) || friendship.friendId === parseInt(sessionStorage.getItem("userId"))))
-                                friends.forEach(friend => {
-                                    if (friend.userId === parseInt(sessionStorage.getItem("userId"))) {
-                                        API.getUsers().then(users => {
-                                            users.forEach(user => {
-                                                if (user.id === friend.friendId) {
-                                                    friendContainer.innerHTML += `<h1>${user.username}</h1><button>Remove Friend</button>`
-                                                }
-                                            });
-                                        })
-                                    } else {
-                                        friendContainer.innerHTML += `<h1>${friend.user.username}</h1><button>Remove Friend</button>`
-                                    }
-                                });
-                                console.log(friends)
-                        
-                            })
-                            // API.getUsers().then(users => {
-                            //     users.forEach(user => {
-                            //         console.log(areWeFriends)
-                            //     });
-                            // })
-                            // friendContainer.innerHTML += `<h1>${username[0].username}</h1><button id="removeFriend">Remove Friend</button>`
+                            const friendDialog = document.querySelector("#friendDialog")
+                            friendListContainer.innerHTML = ""
+                            searchUsernameInput.value = ""
+                            friendDialog.close()
+                            getFriendsOnDom()
+                                })
+                            }
                         })
-                        alert("Let's be friends")
-                    } 
+                    })
                 })
-            })
-            // if (searchUsernameInput.value !== )
+            }
+        })
+
+dashboard.addEventListener("click", event => {
+    if (event.target.id.startsWith("acceptFriend")) {
+        const friendId = event.target.id.split("--")[1]
+        API.getUsers().then(users => {
+            users.forEach(user => {
+                if (user.id === parseInt(friendId)) {
+                    API.getFriendships().then(friendships => {
+                        friendships.forEach(friendship => {
+                            if (friendship.userId === user.id && friendship.friendId === parseInt(sessionStorage.getItem("userId"))) {
+                                friendship.friends = true
+                                const friendshipId = friendship.id
+                                const newFriendsGreat = {
+                                    userId: friendship.userId,
+                                    friendId: friendship.friendId,
+                                    friends: friendship.friends
+                                }
+                                API.editFriendship(friendshipId, newFriendsGreat).then(()=> {
+                                    const friendContainer = document.querySelector("#friendContainer")
+                                    friendContainer.innerHTML = ""
+                                    getFriendsOnDom()
+                                })
+                            }
+                        });
+                    })
+                }
+
+            });
         })
     }
 })
 
+dashboard.addEventListener("click", event => {
+    if (event.target.id.startsWith("deleteFriend")) {
+        const friendId = event.target.id.split("--")[1]
+        const friendContainer = document.querySelector("#friendContainer")
+        friendContainer.innerHTML = ""
+        API.getFriendships().then(friendships => {
+            friendships.forEach(friendship => {
+                if (friendship.userId === parseInt(friendId)) {
+                    const friendshipId = friendship.id
+                    API.deleteFriendship(friendshipId).then(() => {
+                        getFriendsOnDom()
+                    })
+                }
+            });
+        })
+    }
 
+})
