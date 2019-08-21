@@ -6,11 +6,16 @@ const render = {
     renderEvent(eventsInDom) {
         const eventInDom = document.querySelector("#eventsContainer")
         eventInDom.innerHTML = ""
+        eventsInDom.sort((a, b) => (a.eventDate > b.eventDate) ? 1 : -1)
         eventsInDom.forEach(event => {
-            const eventRep = factoryFuncs.createEventHTML(event)
-            eventInDom.innerHTML += eventRep
+            if (eventInDom.innerHTML === "") {
+                const eventRep = factoryFuncs.createFirstEventHTML(event)
+                eventInDom.innerHTML += eventRep
+            } else if (eventInDom.innerHTML !== "") {
+                const eventRep = factoryFuncs.createEventHTML(event)
+                eventInDom.innerHTML += eventRep
+            }
         })
-        // eventsInDom.sort((a,b) => new Date(b.eventDate) - new Date(a.eventDate))
     }
 }
 
