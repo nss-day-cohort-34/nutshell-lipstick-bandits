@@ -1,11 +1,8 @@
-import login from "./login.js"
-import signupForm from "./register.js"
 import API from "./data.js"
 import render from "./dom.js"
 import factoryFuncs from "./factory.js"
 import login from "./login.js"
 import signupForm from "./register.js"
-
 // render friends
 const getFriendsOnDom = () => {
   API.getFriendships().then(friendships => {
@@ -36,6 +33,7 @@ const getFriendsOnDom = () => {
   })
 }
 
+
 const dashboard = document.querySelector("#dashboard")
 
 if (sessionStorage.userId === undefined) {
@@ -65,7 +63,35 @@ dashboard.addEventListener("click", () => {
 
   }
 })
+dashboard.addEventListener("click", event => {
+  if (event.target.id === "addMessage") {
+    const content = {
+      message: messageInput.value,
+      userId: sessionStorage.getItem("userId")
+    }
+    API.postNewMessage(content)
+    .then(() => {
+      const eventsContainer = document.querySelector("#eventsContainer")
+
+      API.fetchMessages().then(message => {
+        render.renderMessage(message)
+      })
+    }
+    )
+  }
+})
 // delete event
+dashboard.addEventListener("click", () => {
+  if (event.target.id.startsWith("editMessage")) {
+    console.log("edit this")
+    let articleId = event.target.parentNode.id
+    let messageId = articleId.split("--")[1]
+    API.getMessage(messageId)
+    .then(response => {
+      factoryFuncs.createAndAppendForm(messageId, response)
+      })
+    }
+})
 dashboard.addEventListener("click", event => {
   if (event.target.id.startsWith("deleteEvent")) {
     const eventsContainer = document.querySelector("#eventsContainer")
@@ -73,12 +99,12 @@ dashboard.addEventListener("click", event => {
     eventsContainer.innerHTML = ""
     console.log("Delete")
     API.deleteEvent(eventId)
-      .then(() => {
-        API.fetchEvents().then(events => {
-          render.renderEvent(events)
-        })
-      }
-      )
+    .then(() => {
+      API.fetchEvents().then(events => {
+        render.renderEvent(events)
+      })
+    }
+    )
   }
 
 
@@ -127,8 +153,8 @@ dashboard.addEventListener("click", event => {
             saveEventButton.innerHTML = "Save"
           }
           )
-      } else if (eventDateInput.value >= today) {
-        API.postEvent(newEvent).then(() => {
+        } else if (eventDateInput.value >= today) {
+          API.postEvent(newEvent).then(() => {
           const eventsContainer = document.querySelector("#eventsContainer")
           eventsContainer.innerHTML = ""
           API.fetchEvents().then(events => {
@@ -164,7 +190,7 @@ dashboard.addEventListener("click", event => {
     const eventDateInput = document.querySelector("#eventDateInput")
     const hiddenField = document.querySelector("#eventID")
     fetch(`http://localhost:8088/events/${eventId}?_expand=user`)
-      .then(data => data.json())
+    .then(data => data.json())
       .then(event => {
         hiddenField.value = event.id
         eventNameInput.value = event.eventName
@@ -175,10 +201,10 @@ dashboard.addEventListener("click", event => {
         const saveEventButton = document.querySelector("#saveEventButton")
         saveEventButton.innerHTML = "Edit"
       })
-  }
+    }
 
-  // edit
-  dashboard.addEventListener("click", event => {
+    // edit
+    dashboard.addEventListener("click", event => {
     const eventsContainer = document.querySelector("#eventsContainer")
     if (event.target.id.startsWith("editEvent")) {
       const eventId = event.target.id.split("--")[1]
@@ -186,35 +212,7 @@ dashboard.addEventListener("click", event => {
     }
   })
 
-  dashboard.addEventListener("click", event => {
-    if (event.target.id === "addMessage") {
-      const content = {
-        message: messageInput.value,
-        userId: sessionStorage.getItem("userId")
-      }
-      API.postNewMessage(content)
-        .then(() => {
-          const eventsContainer = document.querySelector("#eventsContainer")
 
-          API.fetchMessages().then(message => {
-            render.renderMessage(message)
-          })
-        }
-        )
-    }
-  })
-
-  dashboard.addEventListener("click", () => {
-    if (event.target.id.startsWith("editMessage")) {
-      console.log("edit this")
-      let articleId = event.target.parentNode.id
-      let messageId = articleId.split("--")[1]
-      API.getMessage(messageId)
-        .then(response => {
-          factoryFuncs.createAndAppendForm(messageId, response)
-        })
-    }
-  })
   // show friend search dialog box
   dashboard.addEventListener("click", event => {
     const addFriendButton = document.querySelector("#addFriendButton")

@@ -85,7 +85,7 @@ const signupForm = {
 
                     login.replaceWithLoginForm();
                 }
-              
+
 
             })
         }}

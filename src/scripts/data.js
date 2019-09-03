@@ -36,7 +36,7 @@ const API = {
             .then(response => response.json())
     },
     getuserData() {
-        return fetch(`http://localhost:8088/users`)
+        return fetch("http://localhost:8088/users")
             .then(response => response.json())
     },
     getMessage(messageId) {
@@ -44,7 +44,7 @@ const API = {
             .then(response => response.json())
     },
     postNewMessage(content) {
-        return fetch(`http://localhost:8088/messages`, {
+        return fetch("http://localhost:8088/messages", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -61,7 +61,7 @@ const API = {
             },
             body: JSON.stringify(content)
         })},
-   
+
     fetchMessages() {
         return fetch("http://localhost:8088/messages?_expand=user")
             .then(data => data.json())
@@ -88,7 +88,7 @@ const API = {
       },
 
 
-    
+
     getUsers() {
         return fetch("http://localhost:8088/users")
         .then(data => data.json())

@@ -15,8 +15,8 @@ const factoryFuncs = {
 
         </section>`
 
-        
-        
+
+
     } else {
         return `
         <section>
@@ -27,7 +27,7 @@ const factoryFuncs = {
         }
     },
     createFirstEventHTML(eventObj) {
-        if (parseInt(sessionStorage.getItem("userId")) === eventObj.user.id) {
+        if (sessionStorage.getItem("userId") === eventObj.userId) {
             return `
             <section>
             <h2 class="firstEvent">${eventObj.eventName}</h2>
@@ -36,7 +36,7 @@ const factoryFuncs = {
                 <p>Event Created by ${eventObj.user.username}</p>
                 <button id="editEvent--${eventObj.id}">Edit</button>
                 <button id="deleteEvent--${eventObj.id}">Delete</button>
-                
+
                 </section>`
             } else {
                 return `
@@ -47,49 +47,49 @@ const factoryFuncs = {
                 <p>Event Created by ${eventObj.user.username}</p>`
             }
         },
-    
-    
+
+
     createMessageHTML(messageObj) {
-        if (sessionStorage.userId == messageObj.userId) {
-            return `<section id = "message--${messageObj.id}">
+        if (sessionStorage.userId === messageObj.userId) {
+            return `<section class="messages" id = "message--${messageObj.id}">
         <p>${messageObj.message}</p>
         <h5>Message from: ${messageObj.user.username}</h5>
         <button id="editMessage--${messageObj.id}">Edit</button>
         </section>`}
-        else return `<section>
+        else return `<section class="messages">
         <p>${messageObj.message}</p>
         <h5>Message from: ${messageObj.user.username}</h5></section>`
-    
+
     },
     createAndAppendForm(messageId, messageObjToEdit) {
-    
+
         let messageField = document.createElement("p")
         let messageLabel = document.createElement("label")
         messageLabel.textContent = "Message"
         let messageInput = document.createElement("input")
         messageInput.value = messageObjToEdit.message
-    
+
         messageField.appendChild(messageLabel)
         messageField.appendChild(messageInput)
-    
+
         let submitEditButton = document.createElement("button")
         submitEditButton.textContent = "Save"
         submitEditButton.addEventListener("click", () => {
             let editedMessage = {
                 message: messageInput.value,
-    
+
             }
-    
+
             API.patchExistingMessage(messageObjToEdit.id, editedMessage)
                 .then(response => {
                     messageList.postMessage()
                 })
         })
-    
-    
+
+
         const messageSection = document.getElementById(`message--${messageId}`)
-    
-    
+
+
         while (messageSection.firstChild) {
             messageSection.removeChild(messageSection.firstChild);
         }
@@ -135,7 +135,7 @@ const factoryFuncs = {
                 </dialog>
             <article id="eventsContainer"></article>
             <button id="addEvent" class="showEvent">Add</button>
-            
+
             </section>
             <section id="box1_article">
             <h1>Articles</h1>
@@ -158,7 +158,7 @@ const factoryFuncs = {
                 <button id="addFriendButton">Add Friend</button>
                 <h1>Friends</h1>
                 <article id="friendContainer"></article>
-                
+
             </section>
         </section>
         `
